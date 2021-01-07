@@ -107,9 +107,10 @@ function search(json){
         boton.addEventListener("click", ()=>
         {
             for(let i=0;i<json.length;i++){
-                    document.getElementById(i).style.display="inline-block";   
+                document.getElementById(i).style.display="inline-block";   
             }
             boton.style.display="none";
+            document.getElementById("search").value = "";
         });
         
     });   
