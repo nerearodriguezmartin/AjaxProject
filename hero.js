@@ -9,6 +9,7 @@ function loadDoc() {
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
             maquetar(JSON.parse(this.responseText));
+            search(JSON.parse(this.responseText));
         }
     };
     xhttp.open("GET","https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/all.json", true);
@@ -19,29 +20,31 @@ function maquetar(json){
 
     for(let i=cont;i<json.length;i++){
         console.log(json[i].name);
-        var button = document.createElement("button");
         var div= document.createElement("div");
-        div.style.backgroundColor="rgba(255,0,0,0.7)";
-        div.style.borderRadius="50px";
-        div.style.width="13rem";
-        div.style.height="13rem";
+        div.style.width="10rem";
+        div.id = cont;
+        div.style.height="10rem";
         div.style.display="inline-block";
         div.style.margin="1rem";
+        div.style.borderRadius="30px";
+        div.style.paddingBottom= "2rem";
+        div.style.backgroundColor="rgba(255,0,0,0.6)";
         div.onclick=()=>{
-            maquetarInformacion(json[i]);
+            maquetarCard(json[i]);
         }
 
         var img=document.createElement("img");
         img.src=json[i].images.sm;
-        img.style.width="8rem";
-        img.style.borderRadius="20px";
-        img.style.height="8rem";
-        img.style.marginLeft="2.5rem";
+        img.style.width="6rem";
+        img.style.borderRadius="15px";
+        img.style.height="6rem";
+        img.style.marginLeft="2rem";
+        img.style.marginBottom="4rem";
 
         var nombre= document.createElement("p");
         nombre.style.textAlign="center";
         nombre.style.color="white";
-        nombre.style.fontSize="20px"
+        nombre.style.fontSize="18px"
         nombre.textContent=json[i].name;
 
         document.getElementById("card").appendChild(div);
@@ -54,7 +57,7 @@ function maquetar(json){
 }
 
 
-function maquetarInformacion(json){
+function maquetarCard(json){
     console.log(json);
     var modal = document.getElementById("tvesModal");
     var span = document.getElementsByClassName("close")[0];
@@ -87,6 +90,32 @@ function maquetarInformacion(json){
     
     
 }
+
+function search(json){
+    document.getElementById("bot").addEventListener("click", ()=>
+    {
+        for(let i=0;i<json.length;i++){
+            if(document.getElementById("search").value != json[i].name)
+                document.getElementById(i).style.display="none"; 
+            else{
+                document.getElementById(i).style.display="block";
+            }
+        }
+
+        var boton = document.getElementById("boton");
+        boton.style.display="block";
+        boton.addEventListener("click", ()=>
+        {
+            for(let i=0;i<json.length;i++){
+                    document.getElementById(i).style.display="inline-block";   
+            }
+            boton.style.display="none";
+        });
+        
+    });   
+}
+
+
 
 
 window.onload = ()=>{setInterval(loadDoc,400)}
